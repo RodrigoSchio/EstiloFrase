@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">Estilo Frase</string>
+    <string name="querystring">file:///android_res/raw/index.htm?lng=pt</string>
+    <string name="frase">outra frase</string>
+    <string name="style">estilo aleatório</string>
+    <string name="reset">escrever</string>
+    <string name="save">salvar e compartilhar</string>
+</resources>

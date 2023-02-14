@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<meta charset=UTF-8>
+<meta name=viewport content='width=device-width'>
+<style>
+@font-face{font-family:"Architects Daughter";src:url(architects.ttf);}
+@font-face{font-family:"Montserrat";src:url(montserrat.ttf);}
+@font-face{font-family:"Poppins";src:url(poppins.ttf);}
+@font-face{font-family:"RobotoMono";src:url(roboto.ttf);}
+@font-face{font-family:"Rubik";src:url(rubik.ttf);}
+@font-face{font-family:"Secular One";src:url(secular.ttf);}
+</style>
+<body style='background-color:#e1e1e1; margin:0px; height:100vh; display:flex; align-items:center; justify-content:center;'></body>
+<script src=citacoes.json></script>
+<script src=quotes.json></script>
+<script>
+lblbtn="stylize";
+if(location=="file:///android_res/raw/index.htm?lng=pt")lblbtn="estilizar";
+else citacoes=quotes;
+function pickOne(a){return a[parseInt(Math.random()*a.length)];}
+function inicio(){document.body.innerHTML="<div style='background-color:#cccccc; border:1px solid #777777; padding:12px 10px 16px 10px; border-radius:4px; text-align:right;'><textarea style='width:270px; height:80px; padding:12px; margin-bottom:10px; background-color:#ffffff;' id=frase>"+localStorage.getItem("userfrase")+"</textarea><br><a onclick='geraStilo(false,false,false,false);' style='background-color:#b8b8b8; text-decoration:none; border-radius:4px; padding:7px 14px; color:#222222; border:1px solid #555555; cursor:pointer;'>"+lblbtn+"</a></div>";}
+function geraStilo(randomfrase,cor,fonte,frame){
+    if(document.getElementById('frase'))localStorage.setItem("frase",document.getElementById('frase').value);
+    if(document.getElementById('frase'))localStorage.setItem("userfrase",document.getElementById('frase').value);
+    if(randomfrase)localStorage.setItem("frase",pickOne(citacoes));
+
+    if(cor){
+        if(Math.random()>.5){
+            localStorage.setItem("fontcolor",true);
+            localStorage.setItem("bgcolor",hclara[3+parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]+hclara[3+parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]+hclara[3+parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]);
+        }else{
+            localStorage.setItem("fontcolor",false);
+            localStorage.setItem("bgcolor",hescura[parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]+hescura[parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]+hescura[parseInt(Math.random()*13)]+hexas[parseInt(Math.random()*16)]);
+        }
+    }
+
+    if(fonte){
+        localStorage.setItem("font-family",pickOne(["Architects Daughter","Montserrat","Poppins","RobotoMono","Rubik","Secular One"]));
+        localStorage.setItem("font-size",pickOne([15,18,21,24,27,30,33]));
+        localStorage.setItem("text-align",pickOne(["left","right","center"]));
+        localStorage.setItem("text-transform",pickOne(["lowercase","uppercase","capitalize","none"]));
+    }
+
+    if(frame){
+        localStorage.setItem("border-radius",pickOne([3,6,9,12,15,18]));
+        localStorage.setItem("padding",pickOne([14,18,22,26,30,34,38]));
+        localStorage.setItem("frame-preenchido",Math.random()<.7);
+        localStorage.setItem("tracado-borda",Math.random()<.5);
+        localStorage.setItem("estilo-borda",pickOne(["solid","dashed"]));
+        localStorage.setItem("inclinacao",Math.random()>.8);
+        localStorage.setItem("angulo",pickOne(["346","353","7","14"]));
+    }
+
+    bgcolor=localStorage.getItem("bgcolor");
+    fontcolor=localStorage.getItem("fontcolor");
+    splash="<div style='padding:0px 34px; width:100vw; height:100vh; background-color:#"+bgcolor+"; display:flex; align-items:center; justify-content:center;'><div style=\"max-width:400px; color:#"+(fontcolor=="true"?"222222":"dddddd")+";";
+    splash+="border-radius:"+localStorage.getItem("border-radius")+"px;";
+    splash+="font-family:'"+localStorage.getItem("font-family")+"';";
+    splash+="font-size:"+localStorage.getItem("font-size")+"px;";
+    splash+="padding:"+localStorage.getItem("padding")+"px;";
+    splash+="text-align:"+localStorage.getItem("text-align")+";";
+    splash+="text-transform:"+localStorage.getItem("text-transform")+";";
+    if(localStorage.getItem("frame-preenchido")=="true")splash+="background-color:#"+ototom(bgcolor[0])+bgcolor[1]+ototom(bgcolor[2])+bgcolor[3]+ototom(bgcolor[4])+bgcolor[5]+";";
+    else if(localStorage.getItem("tracado-borda")=="true")splash+="border:2px "+localStorage.getItem("estilo-borda")+" #"+(fontcolor=="true"?"222222":"dddddd")+";";
+    if(localStorage.getItem("inclinacao")=="true")splash+="transform:rotate("+localStorage.getItem("angulo")+"deg);";
+    document.body.innerHTML=splash+"\">"+localStorage.getItem("frase").replace(/\</g,'&lt;').replace(/\n/g,'<br>').replace(/  /g,' &nbsp;')+"</div></div>";
+}
+hexas="0123456789abcdef";
+hclara="5567899abcddefff";
+hescura="00012234566789aa";
+function ototom(c){for(x=0;x<16;x++)if(c==hexas[x])return fontcolor=="true"?hclara[x]:hescura[x];}
+if(localStorage.getItem("bgcolor"))geraStilo(false,false,false,false);
+else{
+    localStorage.setItem("userfrase","");
+    geraStilo(true,true,true,true);
+}
+</script>
+</html>
